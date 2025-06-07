@@ -41,7 +41,7 @@ st.dataframe(filtered_df.reset_index(drop=True))
 # -- Add a bar plot for Failure Rate by Service Name --
 st.subheader("Failure Rate by Service")
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(5, 5))
 sns.barplot(data=filtered_df, x='service_name', y='failure_rate')
 plt.xticks(rotation=45)
 plt.ylabel("Failure Rate (%)")
@@ -53,7 +53,7 @@ st.pyplot(plt.gcf())
 # -- Add a scatter plot for Failure Rate vs Response Violation Rate --
 st.subheader("Failure Rate vs Response Violation Rate")
 
-plt.figure(figsize=(8, 5))
+plt.figure(figsize=(5, 5))
 sns.scatterplot(
     data=filtered_df,
     x='failure_rate',
