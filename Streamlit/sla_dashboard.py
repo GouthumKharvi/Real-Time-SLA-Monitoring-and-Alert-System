@@ -2,40 +2,52 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.title("SLA Violations Dashboard")
+st.set_page_config(page_title="SLA Monitoring Dashboard", layout="wide")
+st.title("📊 SLA Violations Dashboard")
 
 @st.cache_data(ttl=60)
 def load_data():
-    return pd.read_csv('data/sample_sla_data.csv')
+    return pd.read_csv("data/sample_sla_data.csv")
 
 # Load data
 df = load_data()
 
-# Filters
-service_filter = st.multiselect("Filter by Service Name", options=df['service_name'].unique(), default=df['service_name'].unique())
-date_range = st.date_input("Select Date Range", [df['date'].min(), df['date'].max()])
-violation_types = st.multiselect("Filter by Violation Type", options=df['violation_type'].unique(), default=df['violation_type'].unique())
+# Convert 'date' column to datetime
+df["date"] = pd.to_datetime(df["date"])
 
-# Filter data
+# Filters
+st.sidebar.header("🔎 Filters")
+service_filter = st.sidebar.multiselect(
+    "Service Name", options=df["service_name"].unique(), default=df["service_name"].unique()
+)
+violation_filter = st.sidebar.multiselect(
+    "Violation Type", options=df["violation_type"].unique(), default=df["violation_type"].unique()
+)
+date_range = st.sidebar.date_input(
+    "Date Range", [df["date"].min().date(), df["date"].max().date()]
+)
+
+# Apply filters
 filtered_df = df[
-    (df['service_name'].isin(service_filter)) &
-    (df['violation_type'].isin(violation_types)) &
-    (df['date'] >= pd.to_datetime(date_range[0])) &
-    (df['date'] <= pd.to_datetime(date_range[1]))
+    (df["service_name"].isin(service_filter)) &
+    (df["violation_type"].isin(violation_filter)) &
+    (df["date"].dt.date >= date_range[0]) &
+    (df["date"].dt.date <= date_range[1])
 ]
 
-st.subheader("Filtered SLA Violations")
-st.dataframe(filtered_df)
+# Display filtered data
+st.subheader("📋 Filtered SLA Violations")
+st.dataframe(filtered_df, use_container_width=True)
 
-# Bar Chart: Violations by Service
-st.subheader("Violation Counts by Service")
-service_counts = filtered_df['service_name'].value_counts()
+# Bar chart: Violations per service
+st.subheader("📉 Violations by Service")
+service_counts = filtered_df["service_name"].value_counts()
 st.bar_chart(service_counts)
 
-# Pie Chart: Violation Type Distribution
-st.subheader("Violation Types Distribution")
-violation_counts = filtered_df['violation_type'].value_counts()
-
+# Pie chart: Violation type distribution
+st.subheader("📌 Violation Types Distribution")
+violation_counts = filtered_df["violation_type"].value_counts()
 fig, ax = plt.subplots()
-ax.pie(violation_counts, labels=violation_counts.index, autopct='%1.1f%%')
+ax.pie(violation_counts, labels=violation_counts.index, autopct="%1.1f%%", startangle=90)
+ax.axis("equal")
 st.pyplot(fig)
