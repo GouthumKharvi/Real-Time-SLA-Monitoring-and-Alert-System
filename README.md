@@ -116,7 +116,7 @@ Service C	      0.15	                1400	                    0.06
 Install all dependencies:
 
 
-pip install -r requirements.txt
+
 
 
 💡 Future Enhancements
