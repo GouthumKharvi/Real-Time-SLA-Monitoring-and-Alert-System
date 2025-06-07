@@ -20,21 +20,49 @@ A Python-based SLA Monitoring system that checks service metrics, detects SLA vi
 ## 🗂 Folder Structure
 
 SLA-Monitoring-System/
+
 │
+
+
 ├── sla_monitor.py # SLA checking logic
+
+
 ├── monitor_sla.py # Scheduler/automation
+
+
 ├── send_email.py # Email alert functionality
+
+
 ├── sla_dashboard.py # Streamlit dashboard UI
+
+
 ├── requirements.txt # Required Python packages
+
+
 ├── README.md # This project description file
+
+
 │
+
+
 ├── data/
+
+
 │ └── sample_sla_data.csv # Input service metrics
+
+
 │
+
+
 ├── utils/
+
+
 │ └── upload_to_cloud.py # Cloud simulation (optional)
+
 │
+
 ├── sla_violations_report.csv # Auto-generated violation report
+
 ├── sla_violations.db # SQLite DB to simulate cloud
 
 
