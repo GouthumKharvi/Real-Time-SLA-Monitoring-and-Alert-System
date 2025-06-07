@@ -1,0 +1,6 @@
+pandas
+streamlit
+schedule
+smtplib
+email
+sqlite3

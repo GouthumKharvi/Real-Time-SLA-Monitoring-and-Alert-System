@@ -1,0 +1,5 @@
+service_name,failure_rate,avg_response_time_ms,response_violation_rate
+auth-service,0.1022,297.34,0.0183
+data-service,0.1066,300.2,0.0226
+notification-service,0.1016,298.39,0.0231
+payment-service,0.0984,298.59,0.019
